@@ -1,0 +1,828 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  10pt,
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={DATA401 assignment},
+  pdfauthor={Michelle Visscher},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{DATA401 assignment}
+\author{Michelle Visscher}
+\date{2022-09-30}
+
+\begin{document}
+\maketitle
+
+Does the type of crime and when crimes are occurring differ among
+regions in New Zealand between July 2021 and July 2022?
+
+With the number of reports of increasing crime showering news outlets,
+one wouldn't be faulted for thinking crime has increased in New Zealand
+in recent times, and in fact, they might be right (Block, 2022; Vitz,
+2022). Reports of record inflation and increased food prices and cost of
+living have become familiar headlines in the modern new cycle. These
+reports are of course supported by StatsNZ data on Food Price Index
+increasing and coincide with reports on a decline on New Zealanders
+mental health (Stats NZ, 2022; Stats NZ 2022). These socio-economic
+factors affect all aspects of society, including crime. By understanding
+the commonly accepted root causes of crime, we may be able to better
+understand why crimes occur and why crimes can occur more frequently in
+certain situations. The causes of crime are myriad and no one factor is
+solely the cause of crime, rather it is a combination of socio-economic
+factors that contribute to crime and rates of crime (CS\&CPC, 2005). The
+most common mentions include social and economic disadvantages, poverty,
+and geographic location (Ministry of Justice, 2009). When considering
+increased cost of living in New Zealand over the past year, this report
+is will assess how crime occurrence trends have changed over this
+period. Moreover, considering geographic location in New Zealand, this
+report aims to see whether crimes occurring differs among regions in New
+Zealand and whether these crimes occur at different times. To answer the
+question of whether the type of crime and when crimes are occurring
+differs among regions in New Zealand between July 2021 and July 2022,
+the Police data on Demand and Activity with respect to the Time and
+Place and Districts/Regions data sets will be used. The data taken
+between July 2021 and July 2022 will be used, being the most recent data
+collected, and will be used for the basis of this report.
+
+Method
+
+The dataset used in this report is taken from the New Zealand Police
+Dataset `Demand and Activity 'with respect to the 'Time and Place' and
+`Districts/Regions' data sets. The Demand and Activity data set was used
+as this includes reports of crime occurrence as reported to Police (New
+Zealand Police, n.d). The `Time and Place' dataset herein includes
+reports of when the crime was reported to have occurred by day of the
+week and in three-hourly bands of any given day. The `Districts/Regions'
+data also records the police district to which the crime was reported.
+For the data set included in this report, two main datasets were
+collected from the police datasets website. These include the
+`total\_crimes', Hour\_Day\_Region and `crime\_loc\_data' datasets. The
+`total\_crimes' data set briefly outlines the total reported crime count
+in New Zealand between July 2021 and July 2022. The `crime\_loc\_data'
+dataset describes the reported count of crimes occurring in each region
+in New Zealand per month between July 2021 and July 2022. The regions
+included in the dataset are Auckland, Bay of Plenty, Canterbury,
+Gisborne, Hawke's Bay, Manawatu-Wanganui, Marlborough, Nelson,
+Northland, Otago, Southland, Taranaki, Tasman, Waikato, Wellington, West
+Coast, and Special regions Chatham Islands and those regions outside
+territorial authority. The Hour\_Day\_Region datasets includes data
+pertaining to the crime division and regions in New Zealand, and also
+includes data for when the crime occurred (days of the week and hours
+bounded in 3 hour reported increments).
+
+To explore the dataset, the programming language R will be used to
+conduct exploratory descriptive statistical analyses and to visually
+explore the data. Aside from the base R package, I will also employ the
+use of packages tidyverse, ggplot2, readr, stringr and pals, plotly and
+ggmisc.\\
+Exploration of the datasets will begin by computing summary statistics
+in R for the basic dataset of `total\_crimes' and computing the total
+number of crimes across all crime divisions in New Zealand (July 2021-
+July 2022), to get an overview of the total crimes occurring in New
+Zealand. The number of crimes occurring in New Zealand by region, by day
+and by hour band will be explored using summary statistics and
+visualisations. Crime occurrence per month will also be assessed to
+explore changes in crime occurrence over the past year in New Zealand. I
+will also produce visualisations of the data so that the results can be
+easy to interpret using graphs.
+
+Results
+
+\begin{verbatim}
+##                                                            crime_division
+##  Abduction, Harassment and Other Related Offences Against a Person: 1    
+##  Acts Intended to Cause Injury                                    : 1    
+##  Dangerous or Negligent Acts Endangering Persons                  : 1    
+##  Fraud, Deception and Related Offences                            : 1    
+##  Homicide and Related Offences                                    : 1    
+##  Illicit Drug Offences                                            : 1    
+##  (Other)                                                          :10    
+##    occurences    
+##  Min.   :   216  
+##  1st Qu.: 18340  
+##  Median : 62442  
+##  Mean   : 91934  
+##  3rd Qu.:101396  
+##  Max.   :425280  
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 1470942
+\end{verbatim}
+
+From the total\_crimes data set, the total number of reported crimes
+committed across all regions of New Zealand in the period between July
+2021 and July 2022 is 1470942. The average (mean) number of all crimes
+committed between July 2021 and July 2022 in New Zealand is 91934. The
+total number of reported crime occurrences can be visualised in the
+graph `Total Crime Occurrences in New Zealand between July 2021 and July
+2022'. Theft and Related offences (theft) are the most commonly
+occurring division of crime, followed by Public order offences. Homicide
+and related offences is the least common division of crime.
+
+\begin{center}\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-3-1} \end{center}
+
+Further exploration of the data is conducted using the crime\_loc\_data,
+assessing crime division by region. The table below shows the mean
+number of crimes occurring and the standard deviation, for each region
+in New Zealand. The region with the highest average reported crime
+occurrence is Auckland Region. Appendix 1, `Side-by-side Bar chart, by
+Crime Division', shows the sum of crimes in each region in New Zealand,
+illustrating the number of reported crime occurrences in Auckland is
+considerably greater compared with other regions in New Zealand. The
+crime division `theft' is also seen to be the most commonly reported
+crime in Auckland Region. The graph `100\% stacked bar chart, by
+Region', illustrates how `theft' makes up the highest proportion of all
+crimes reported in most regions.
+
+\begin{verbatim}
+## # A tibble: 18 x 3
+##    Region                                  mean  std_dev
+##    <chr>                                  <dbl>    <dbl>
+##  1 Area Outside Territorial Authority.    29.6     44.4 
+##  2 Auckland Region                     10239.   14362.  
+##  3 Bay of Plenty Region                 2766.    3504.  
+##  4 Canterbury Region                    4397.    5381.  
+##  5 Chatham Islands Territory.              2.67     1.15
+##  6 Gisborne Region                       366.     413.  
+##  7 Hawke's Bay Region                   1435.    1650.  
+##  8 Manawatu-Wanganui Region             2125.    2474.  
+##  9 Marlborough Region                    279.     268.  
+## 10 Nelson Region                         351.     386.  
+## 11 Northland Region                     1295.    1562.  
+## 12 Otago Region                          874.     822.  
+## 13 Southland Region                      430.     424.  
+## 14 Taranaki Region                       651      663.  
+## 15 Tasman Region                         213.     194.  
+## 16 Waikato Region                       3317.    4157.  
+## 17 Wellington Region                    3276.    4346.  
+## 18 West Coast Region                     156.     123.
+\end{verbatim}
+
+\begin{center}\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-5-1} \end{center}
+
+Looking at the total reported crime occurrences between July 2021 and
+July 2022 on each day of the week in each region in New Zealand, Table 1
+(Appendix 2) shows a contingency table of the total number of crime
+occurrences for each day of the week in each region. We can visualize
+this using a stacked Bar Chart to illustrate the total number of crimes
+in days of the week for each region. `Stacked bar chart, by Day' shows
+the reported sum of all crimes by day of the week, for each region. By
+using a proportion table, it is possible to show the relative proportion
+of crimes occurring in each region for each day of the week. Appendix 3
+illustrates this proportion contingency table. We can visualize this
+using the `100\% stacked Bar Chart, by Day' to illustrate the
+proportions of crimes in days of the week for each region. The graph
+illustrates no significant proportional difference between days of the
+week for reported crimes. Notably, Thursday is suggested to be a big
+crime day in the Chatham Islands Territory.
+
+\begin{center}\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-7-1} \end{center}
+
+\begin{center}\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-8-1} \end{center}
+
+Also explored is the possible difference in reported crime occurring by
+hour boundary. Table2 (appendix 4) shows the contingency table by hour
+boundary in each region. The contingency table suggests the hour
+boundary of 12:00 - 14:59 accounts for the highest reported crime
+occurrences. The `100\% stacked bar chart, by hour boundary' illustrates
+the proportion of crimes occurring in different regions by their hour
+band. This suggests that proportionally, there does not appear to be
+much difference between regions with respect to the time of day in which
+crimes occur.\\
+Using a proportion contingency table, it is also possible to show the
+relative proportion of crimes occurring in each region for each Hour
+band. The results of the proportion contingency table (appendix 5) show
+that the highest proportion of all crimes occur in the Auckland region.
+
+\begin{center}\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-10-1} \end{center}
+
+Finally, to look at whether there has been a change in crime occurrences
+over the past year, a line graph was used to produce a time series plot
+of total crimes occurring in New Zealand. The data used here encompasses
+August 2021 to July 2022.
+
+\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+Looking at the above line graph, we can observe an overall increase in
+total number of crime occurrences between August 2021 and July 2022. The
+`100\% stacked bar chart, by region' (appendix 6), visualizes the
+proportion of crimes occurring in each region over time. Auckland
+consistently has the highest proportion of crime occurrences reported,
+however over this period, no great difference in crime per region can be
+seen from this graph. The proportion table (Appendix 7) also shows the
+relative proportion of crimes occurring in each region for each month
+between August 2021 and July 2022. From the research completed
+previously, it was shown that the most common crime is the ``Theft and
+Related Offences'' (Theft) division. As such, a more in depth analysis
+can be conducted into the occurrence of `Theft'. Using a scatterplot
+graph, it is possible to visualize the total occurrences of `Theft' per
+month over the past year.
+
+\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+From the scatterplot of Theft and Related Offences in New Zealand
+between August 2021 and July 2022, we can observe a general trend of
+increasing number of reported Theft per month over the past year,
+suggesting the number of reported Thefts has increased. The difference
+between the total reported theft occurrences in August 2021 and July
+2022 can also be calculated to be (11147 - 7020) = 4127, or an increase
+in reported theft occurrences by 4127, up 58.79\% between August 2021 to
+July 2022.
+
+Discussion
+
+The exploratory analysis of the New Zealand Police data on Demand and
+Activity with respect to the `Time and Place' and `Districts/Regions'
+data sets shows that overall, no real difference between New Zealand
+regions in the type of crime and when crimes are occurring has been
+found in this report. These findings are supported in Figures 2, 4 and
+5, showing the proportion of crimes occurring in regions, by day and
+hour boundary respectively. These findings suggest general crime trends
+throughout New Zealand to include the most commonly occurring crime
+being theft (Fig. 2), the day with the most reported crimes being
+Saturday (Fig. 4) and the most common hour boundary of reported crimes
+on any day of the week being 12:00-14:59 (Fig. 5). The findings also
+suggest the highest number of reported crimes occurs in the Auckland
+region. This finding is, however, unsurprising as the Auckland region
+consists of around 1/3 of the entire New Zealand population, and
+consequently the Auckland region will be overrepresented in most samples
+taken simply due to this factor. One way to remedy this in further
+investigations would be to adjust for this using relative proportions of
+crime occurring in regions.
+
+Occurrences of crime have been found to increase in New Zealand between
+2021 and 2022 (Fig. 6). As the results show that the most commonly
+occurring crime in New Zealand, regardless of region, is theft and
+related offences (theft), is it also shown that theft has largely
+increased between August 2021 and July 2022 in New Zealand (Fig. 7).
+When comparing the values of total reported thefts between August 2021
+and July 2022, an increase of 58.79 can be observed. This is consistent
+with other reports, mainly news articles (Vitz, 2022; Block, 2022) that
+also advise of a general trend of increasing crime and theft in New
+Zealand in recent times.
+
+It is possible that some of the data reported during these months has
+been affected by extrinsic circumstances, namely the Auckland 2021
+lockdown which occurred between August and December 2021. It is possible
+that due to this lockdown, fewer thefts were being committed (as more
+people were in their homes during this time) or reporting to police of
+crimes during this period lessened resulting in fewer reported crimes.
+Further investigations could be made here to include crime data over a
+longer period, for example over the past two or three years to gain a
+broader perspective of general crime trends in New Zealand. The study
+herein also does not consider a possible confounding factor of overall
+population change between in the period between August 2021 and July
+2022. In further studies, it would be appropriate to consider
+statistical analyses on regional population data alongside crime
+statistics. To further investigate the causes of increased crime, it
+would be pertinent to analyse cost of living data, such as the consumer
+price index or food price index, so as to explore any possible
+relationship between these two factors. To conclude, the results of the
+statistical exploration taken on the New Zealand Police data of Demand
+and Activity show that, in general, the type of crime and when crimes
+are occurring in does not differ greatly between regions in New Zealand.
+However, when considering the overall crime trend in New Zealand between
+2021 and 2022, an increase in crime occurrences is revealed.
+
+References
+
+Block, G. (2022, August 13). Crime victim rate hits record high, cops
+say numbers aren't what they seem. NZ Herald. Retrieved September 25,
+2022, from
+\url{https://www.nzherald.co.nz/nz/crime-victim-rate-hits-record-high-but-cops-say-figures-arent-all-they-seem/K4T2YQWVOQOD4RXFKF3DTW445I/}
+
+CS\&CPC (2005). The Root Causes of Crime CS\&CPC Statement on the Root
+Causes of Crime approved in 1996. {[}online{]} Available at:
+\url{http://preventingcrime.ca/wp-content/uploads/2014/08/Causes_of_Crime.pdf}.
+
+Ministry of Justice (2009). Theories of the Causes of Crime.
+{[}online{]} Available at:
+\url{https://www.beehive.govt.nz/sites/default/files/Strategic_policy_brief_theories_on_the_causes_of_crime.pdf}.
+
+New Zealand Police. (n.d.). Demand and Activity. {[}online{]} Available
+at:
+\url{https://www.police.govt.nz/about-us/statistics-and-publications/data-and-statistics/demand-and-activity}.
+
+Stats NZ (13 July 2022) Annual food price increase remains high at 6.6
+percent: Stats NZ. Annual food price increase remains high at 6.6
+percent \textbar{} Stats NZ. Retrieved September 25, 2022, from
+\url{https://www.stats.govt.nz/news/annual-food-price-increase-remains-high-at-6-6-percent/}
+
+Stats NZ (05 July 2022) New Zealanders' mental wellbeing declines: Stats
+NZ. New Zealanders' mental wellbeing declines \textbar{} Stats NZ.
+Retrieved September 25, 2022, from
+\url{https://www.stats.govt.nz/news/new-zealanders-mental-wellbeing-declines/}
+
+Vitz, E. (2022, July 19). How much has crime actually increased? The
+Spinoff. Retrieved September 25, 2022, from
+\url{https://thespinoff.co.nz/society/19-07-2022/how-much-has-crime-really-increased}
+
+Appendix
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Appendix 1}
+\CommentTok{\#count\_data\_crime$log\_of\_sum\textless{}{-}log(count\_data\_crime$sum\_of\_crime)}
+\NormalTok{Side\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{count\_data\_crime, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Region, }\AttributeTok{y=}\NormalTok{sum\_of\_crime, }\AttributeTok{fill=}\NormalTok{crime\_division)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{, }\AttributeTok{position=}\FunctionTok{position\_dodge}\NormalTok{())}\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#CC6666"}\NormalTok{, }\StringTok{"\#E69F00"}\NormalTok{, }\StringTok{"\#56B4E9"}\NormalTok{, }\StringTok{"\#009E73"}\NormalTok{, }\StringTok{"\#F0E442"}\NormalTok{, }
+                               \StringTok{"\#0072B2"}\NormalTok{, }\StringTok{"\#D55E00"}\NormalTok{, }\StringTok{"\#CC79A7"}\NormalTok{,}\StringTok{"\#C4961A"}\NormalTok{,}
+                               \StringTok{"green4"}\NormalTok{,}\StringTok{"\#6A3D9A"}\NormalTok{,}\StringTok{"\#FF7F00"}\NormalTok{,}
+                               \StringTok{"\#FFDB6D"}\NormalTok{,}\StringTok{"maroon"}\NormalTok{,}\StringTok{"deeppink1"}\NormalTok{, }\StringTok{"orchid1"}\NormalTok{))}\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{guide =} \FunctionTok{guide\_axis}\NormalTok{(}\AttributeTok{angle =} \DecValTok{60}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Appendix 1, Side{-}by{-}side Bar chart, by Crime Division"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{, }\AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{))}
+
+
+\NormalTok{Side\_plot }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-13-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#appendix 2: Table, showing the number of reported crimes occurring in each region for each day of the week. }
+\NormalTok{table1 }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(Hour\_Day\_Region}\SpecialCharTok{$}\NormalTok{Day, Hour\_Day\_Region}\SpecialCharTok{$}\NormalTok{Region)}
+\NormalTok{table1 }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##       Area Outside Territorial Authority. Auckland Region Bay of Plenty Region
+##   Fri                                  59           15887                 4504
+##   Mon                                  24           13985                 3913
+##   Sat                                  57           16315                 4844
+##   Sun                                  45           15265                 4352
+##   Thu                                  36           14659                 4017
+##   Tue                                  38           13525                 3993
+##   Wed                                  34           13728                 3927
+##      
+##       Canterbury Region Chatham Islands Territory. Gisborne Region
+##   Fri              6866                          2             632
+##   Mon              5965                          3             528
+##   Sat              7040                          5             716
+##   Sun              6468                          1             615
+##   Thu              6375                          8             540
+##   Tue              5874                          1             555
+##   Wed              6125                          5             557
+##      
+##       Hawke's Bay Region Manawatu-Wanganui Region Marlborough Region
+##   Fri               2249                     3251                423
+##   Mon               1843                     2857                356
+##   Sat               2355                     3242                474
+##   Sun               2170                     3080                414
+##   Thu               2002                     2912                417
+##   Tue               1894                     2994                410
+##   Wed               1957                     2894                426
+##      
+##       Nelson Region Northland Region Otago Region Southland Region
+##   Fri           562             2163         1589              706
+##   Mon           547             1863         1205              585
+##   Sat           639             2181         1736              735
+##   Sun           602             1995         1452              642
+##   Thu           511             1943         1395              593
+##   Tue           497             1837         1199              575
+##   Wed           564             1808         1216              644
+##      
+##       Taranaki Region Tasman Region Waikato Region Wellington Region
+##   Fri            1114           390           5146              5057
+##   Mon             982           270           4644              4291
+##   Sat            1183           386           5482              5272
+##   Sun             990           315           4902              4936
+##   Thu            1042           336           4699              4569
+##   Tue             987           308           4532              4289
+##   Wed            1058           313           4429              4659
+##      
+##       West Coast Region
+##   Fri               257
+##   Mon               207
+##   Sat               256
+##   Sun               254
+##   Thu               264
+##   Tue               221
+##   Wed               275
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#appendix 3: proportion table, showing the relative proportion of crimes occurring in each region for each day of the week. }
+\FunctionTok{round}\NormalTok{(}\FunctionTok{prop.table}\NormalTok{(table1, }\DecValTok{2}\NormalTok{), }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      
+##       Area Outside Territorial Authority. Auckland Region Bay of Plenty Region
+##   Fri                               0.201           0.154                0.152
+##   Mon                               0.082           0.135                0.132
+##   Sat                               0.195           0.158                0.164
+##   Sun                               0.154           0.148                0.147
+##   Thu                               0.123           0.142                0.136
+##   Tue                               0.130           0.131                0.135
+##   Wed                               0.116           0.133                0.133
+##      
+##       Canterbury Region Chatham Islands Territory. Gisborne Region
+##   Fri             0.154                      0.080           0.153
+##   Mon             0.133                      0.120           0.127
+##   Sat             0.157                      0.200           0.173
+##   Sun             0.145                      0.040           0.148
+##   Thu             0.143                      0.320           0.130
+##   Tue             0.131                      0.040           0.134
+##   Wed             0.137                      0.200           0.134
+##      
+##       Hawke's Bay Region Manawatu-Wanganui Region Marlborough Region
+##   Fri              0.155                    0.153              0.145
+##   Mon              0.127                    0.135              0.122
+##   Sat              0.163                    0.153              0.162
+##   Sun              0.150                    0.145              0.142
+##   Thu              0.138                    0.137              0.143
+##   Tue              0.131                    0.141              0.140
+##   Wed              0.135                    0.136              0.146
+##      
+##       Nelson Region Northland Region Otago Region Southland Region
+##   Fri         0.143            0.157        0.162            0.158
+##   Mon         0.139            0.135        0.123            0.131
+##   Sat         0.163            0.158        0.177            0.164
+##   Sun         0.153            0.145        0.148            0.143
+##   Thu         0.130            0.141        0.142            0.132
+##   Tue         0.127            0.133        0.122            0.128
+##   Wed         0.144            0.131        0.124            0.144
+##      
+##       Taranaki Region Tasman Region Waikato Region Wellington Region
+##   Fri           0.151         0.168          0.152             0.153
+##   Mon           0.133         0.116          0.137             0.130
+##   Sat           0.161         0.167          0.162             0.159
+##   Sun           0.135         0.136          0.145             0.149
+##   Thu           0.142         0.145          0.139             0.138
+##   Tue           0.134         0.133          0.134             0.130
+##   Wed           0.144         0.135          0.131             0.141
+##      
+##       West Coast Region
+##   Fri             0.148
+##   Mon             0.119
+##   Sat             0.148
+##   Sun             0.146
+##   Thu             0.152
+##   Tue             0.127
+##   Wed             0.159
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#appendix 4: Table, showing the number of reported crimes occurring in each region for hour boundary.}
+\NormalTok{table2 }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(Hour\_Day\_Region}\SpecialCharTok{$}\NormalTok{Hour, Hour\_Day\_Region}\SpecialCharTok{$}\NormalTok{Region)}
+\NormalTok{table2 }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              
+##               Area Outside Territorial Authority. Auckland Region
+##   00:00-02:59                                  39            8425
+##   03:00-05:59                                   7            5268
+##   06:00-08:59                                  16            7227
+##   09:00-11:59                                  46           15152
+##   12:00-14:59                                  42           19887
+##   15:00-17:59                                  47           19659
+##   18:00-20:59                                  45           16219
+##   21:00-23:59                                  51           11527
+##              
+##               Bay of Plenty Region Canterbury Region Chatham Islands Territory.
+##   00:00-02:59                 2318              3560                          1
+##   03:00-05:59                  984              1986                          0
+##   06:00-08:59                 2087              2887                          1
+##   09:00-11:59                 4900              6732                          5
+##   12:00-14:59                 5939              8591                          6
+##   15:00-17:59                 5715              8890                          1
+##   18:00-20:59                 4381              6848                          7
+##   21:00-23:59                 3226              5219                          4
+##              
+##               Gisborne Region Hawke's Bay Region Manawatu-Wanganui Region
+##   00:00-02:59             344               1094                     1564
+##   03:00-05:59             153                550                      912
+##   06:00-08:59             335                971                     1431
+##   09:00-11:59             744               2502                     3392
+##   12:00-14:59             772               2924                     4185
+##   15:00-17:59             770               2703                     4312
+##   18:00-20:59             544               2074                     3222
+##   21:00-23:59             481               1652                     2212
+##              
+##               Marlborough Region Nelson Region Northland Region Otago Region
+##   00:00-02:59                210           317              937         1066
+##   03:00-05:59                 88           172              433          388
+##   06:00-08:59                202           242              989          495
+##   09:00-11:59                500           575             2558         1375
+##   12:00-14:59                617           780             2924         1843
+##   15:00-17:59                557           804             2637         1848
+##   18:00-20:59                437           561             1919         1412
+##   21:00-23:59                309           471             1393         1365
+##              
+##               Southland Region Taranaki Region Tasman Region Waikato Region
+##   00:00-02:59              445             583           156           2579
+##   03:00-05:59              192             251            79           1441
+##   06:00-08:59              251             468           149           2317
+##   09:00-11:59              635            1164           372           5533
+##   12:00-14:59              855            1452           523           6656
+##   15:00-17:59              844            1394           490           6574
+##   18:00-20:59              681            1109           305           5152
+##   21:00-23:59              577             935           244           3582
+##              
+##               Wellington Region West Coast Region
+##   00:00-02:59              2824               108
+##   03:00-05:59              1425                47
+##   06:00-08:59              2084               105
+##   09:00-11:59              4740               338
+##   12:00-14:59              6476               348
+##   15:00-17:59              6836               366
+##   18:00-20:59              5028               235
+##   21:00-23:59              3660               187
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#appendix 5: proportion table, showing the relative proportion of crimes occurring in each region for each hour boundary in any given day.}
+\FunctionTok{round}\NormalTok{(}\FunctionTok{prop.table}\NormalTok{(table2,}\DecValTok{2}\NormalTok{),}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              
+##               Area Outside Territorial Authority. Auckland Region
+##   00:00-02:59                               0.133           0.082
+##   03:00-05:59                               0.024           0.051
+##   06:00-08:59                               0.055           0.070
+##   09:00-11:59                               0.157           0.147
+##   12:00-14:59                               0.143           0.192
+##   15:00-17:59                               0.160           0.190
+##   18:00-20:59                               0.154           0.157
+##   21:00-23:59                               0.174           0.112
+##              
+##               Bay of Plenty Region Canterbury Region Chatham Islands Territory.
+##   00:00-02:59                0.078             0.080                      0.040
+##   03:00-05:59                0.033             0.044                      0.000
+##   06:00-08:59                0.071             0.065                      0.040
+##   09:00-11:59                0.166             0.151                      0.200
+##   12:00-14:59                0.201             0.192                      0.240
+##   15:00-17:59                0.193             0.199                      0.040
+##   18:00-20:59                0.148             0.153                      0.280
+##   21:00-23:59                0.109             0.117                      0.160
+##              
+##               Gisborne Region Hawke's Bay Region Manawatu-Wanganui Region
+##   00:00-02:59           0.083              0.076                    0.074
+##   03:00-05:59           0.037              0.038                    0.043
+##   06:00-08:59           0.081              0.067                    0.067
+##   09:00-11:59           0.180              0.173                    0.160
+##   12:00-14:59           0.186              0.202                    0.197
+##   15:00-17:59           0.186              0.187                    0.203
+##   18:00-20:59           0.131              0.143                    0.152
+##   21:00-23:59           0.116              0.114                    0.104
+##              
+##               Marlborough Region Nelson Region Northland Region Otago Region
+##   00:00-02:59              0.072         0.081            0.068        0.109
+##   03:00-05:59              0.030         0.044            0.031        0.040
+##   06:00-08:59              0.069         0.062            0.072        0.051
+##   09:00-11:59              0.171         0.147            0.185        0.140
+##   12:00-14:59              0.211         0.199            0.212        0.188
+##   15:00-17:59              0.191         0.205            0.191        0.189
+##   18:00-20:59              0.150         0.143            0.139        0.144
+##   21:00-23:59              0.106         0.120            0.101        0.139
+##              
+##               Southland Region Taranaki Region Tasman Region Waikato Region
+##   00:00-02:59            0.099           0.079         0.067          0.076
+##   03:00-05:59            0.043           0.034         0.034          0.043
+##   06:00-08:59            0.056           0.064         0.064          0.068
+##   09:00-11:59            0.142           0.158         0.160          0.164
+##   12:00-14:59            0.191           0.197         0.226          0.197
+##   15:00-17:59            0.188           0.190         0.211          0.194
+##   18:00-20:59            0.152           0.151         0.132          0.152
+##   21:00-23:59            0.129           0.127         0.105          0.106
+##              
+##               Wellington Region West Coast Region
+##   00:00-02:59             0.085             0.062
+##   03:00-05:59             0.043             0.027
+##   06:00-08:59             0.063             0.061
+##   09:00-11:59             0.143             0.195
+##   12:00-14:59             0.196             0.201
+##   15:00-17:59             0.207             0.211
+##   18:00-20:59             0.152             0.136
+##   21:00-23:59             0.111             0.108
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#appendix 6 }
+\NormalTok{Region\_count }\OtherTok{\textless{}{-}}\NormalTok{ Hour\_Day\_Region }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Month\_yr)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(Region)}
+\NormalTok{Region\_count}\SpecialCharTok{$}\NormalTok{Month\_yr}\OtherTok{\textless{}{-}} \FunctionTok{ordered}\NormalTok{(Region\_count}\SpecialCharTok{$}\NormalTok{Month\_yr, levels}\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(}\StringTok{"Aug2021"}\NormalTok{,}
+                                                                   \StringTok{"Sep2021"}\NormalTok{,}
+                                                                   \StringTok{"Oct2021"}\NormalTok{,}
+                                                                   \StringTok{"Nov2021"}\NormalTok{,}
+                                                                   \StringTok{"Dec2021"}\NormalTok{,}
+                                                                   \StringTok{"Jan2022"}\NormalTok{,}
+                                                                   \StringTok{"Feb2022"}\NormalTok{,}
+                                                                   \StringTok{"Mar2022"}\NormalTok{,}
+                                                                   \StringTok{"Apr2022"}\NormalTok{,}
+                                                                   \StringTok{"May2022"}\NormalTok{,}
+                                                                   \StringTok{"Jun2022"}\NormalTok{,}
+                                                                   \StringTok{"Jul2022"}\NormalTok{))}
+
+
+\NormalTok{Region\_count\_plot}\OtherTok{\textless{}{-}}\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ Region\_count, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Month\_yr, }\AttributeTok{y=}\NormalTok{n, }\AttributeTok{fill=}\NormalTok{Region)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{stat =}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{, }\AttributeTok{position=}\StringTok{\textquotesingle{}fill\textquotesingle{}}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{guide =} \FunctionTok{guide\_axis}\NormalTok{(}\AttributeTok{angle =} \DecValTok{60}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#CC6666"}\NormalTok{, }\StringTok{"\#E69F00"}\NormalTok{, }\StringTok{"\#56B4E9"}\NormalTok{, }\StringTok{"\#009E73"}\NormalTok{, }\StringTok{"\#F0E442"}\NormalTok{, }
+                               \StringTok{"\#0072B2"}\NormalTok{, }\StringTok{"\#D55E00"}\NormalTok{, }\StringTok{"\#CC79A7"}\NormalTok{,}\StringTok{"\#C4961A"}\NormalTok{,}
+                               \StringTok{"green4"}\NormalTok{,}\StringTok{"\#6A3D9A"}\NormalTok{,}\StringTok{"\#FF7F00"}\NormalTok{,}
+                               \StringTok{"\#FFDB6D"}\NormalTok{,}\StringTok{"maroon"}\NormalTok{,}\StringTok{"deeppink1"}\NormalTok{, }\StringTok{"orchid1"}\NormalTok{, }\StringTok{"9999CC"}\NormalTok{, }\StringTok{"\#66CC99"}\NormalTok{))}\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Appendix 6: 100\% Stacked Bar chart, by Region"}\NormalTok{, }\AttributeTok{y=}\StringTok{\textquotesingle{}Proportion\textquotesingle{}}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{, }\AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Ignoring unknown parameters: stat
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Region\_count\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{data401-assignment1_files/figure-latex/unnamed-chunk-18-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Appendix 7: proportion table, showing the relative proportion of crimes occurring in each region for each month (August 2021 {-} July 2022 inclusive.)}
+\NormalTok{table3 }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(Hour\_Day\_Region}\SpecialCharTok{$}\NormalTok{Region, Hour\_Day\_Region}\SpecialCharTok{$}\NormalTok{Month\_yr)}
+\FunctionTok{round}\NormalTok{(}\FunctionTok{prop.table}\NormalTok{(table3, }\DecValTok{2}\NormalTok{),}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                      
+##                                       Apr2022 Aug2021 Dec2021 Feb2022 Jan2022
+##   Area Outside Territorial Authority.   0.001   0.001   0.001   0.001   0.001
+##   Auckland Region                       0.338   0.321   0.304   0.326   0.311
+##   Bay of Plenty Region                  0.083   0.084   0.095   0.089   0.091
+##   Canterbury Region                     0.134   0.131   0.128   0.128   0.130
+##   Chatham Islands Territory.            0.000   0.000   0.000   0.000   0.000
+##   Gisborne Region                       0.012   0.013   0.013   0.014   0.013
+##   Hawke's Bay Region                    0.041   0.042   0.045   0.043   0.045
+##   Manawatu-Wanganui Region              0.061   0.063   0.066   0.062   0.064
+##   Marlborough Region                    0.008   0.011   0.008   0.008   0.009
+##   Nelson Region                         0.010   0.012   0.011   0.012   0.013
+##   Northland Region                      0.041   0.044   0.041   0.042   0.043
+##   Otago Region                          0.028   0.033   0.032   0.026   0.027
+##   Southland Region                      0.012   0.013   0.015   0.012   0.014
+##   Taranaki Region                       0.023   0.021   0.024   0.021   0.023
+##   Tasman Region                         0.007   0.007   0.008   0.007   0.007
+##   Waikato Region                        0.097   0.100   0.104   0.106   0.107
+##   Wellington Region                     0.099   0.097   0.100   0.098   0.095
+##   West Coast Region                     0.004   0.006   0.006   0.006   0.005
+##                                      
+##                                       Jul2022 Jun2022 Mar2022 May2022 Nov2021
+##   Area Outside Territorial Authority.   0.001   0.001   0.001   0.001   0.001
+##   Auckland Region                       0.316   0.308   0.329   0.310   0.298
+##   Bay of Plenty Region                  0.093   0.091   0.083   0.087   0.093
+##   Canterbury Region                     0.135   0.139   0.134   0.143   0.139
+##   Chatham Islands Territory.            0.000   0.000   0.000   0.000   0.000
+##   Gisborne Region                       0.013   0.011   0.011   0.012   0.013
+##   Hawke's Bay Region                    0.043   0.045   0.043   0.047   0.040
+##   Manawatu-Wanganui Region              0.065   0.062   0.065   0.061   0.067
+##   Marlborough Region                    0.009   0.009   0.009   0.007   0.011
+##   Nelson Region                         0.012   0.012   0.013   0.012   0.011
+##   Northland Region                      0.041   0.043   0.040   0.042   0.042
+##   Otago Region                          0.028   0.031   0.028   0.029   0.031
+##   Southland Region                      0.013   0.015   0.013   0.012   0.014
+##   Taranaki Region                       0.020   0.021   0.022   0.020   0.023
+##   Tasman Region                         0.006   0.008   0.006   0.007   0.006
+##   Waikato Region                        0.105   0.100   0.101   0.100   0.099
+##   Wellington Region                     0.097   0.100   0.097   0.106   0.105
+##   West Coast Region                     0.004   0.004   0.006   0.004   0.006
+##                                      
+##                                       Oct2021 Sep2021
+##   Area Outside Territorial Authority.   0.001   0.001
+##   Auckland Region                       0.285   0.299
+##   Bay of Plenty Region                  0.093   0.086
+##   Canterbury Region                     0.142   0.140
+##   Chatham Islands Territory.            0.000   0.000
+##   Gisborne Region                       0.013   0.014
+##   Hawke's Bay Region                    0.045   0.045
+##   Manawatu-Wanganui Region              0.071   0.063
+##   Marlborough Region                    0.010   0.008
+##   Nelson Region                         0.011   0.012
+##   Northland Region                      0.041   0.040
+##   Otago Region                          0.030   0.034
+##   Southland Region                      0.015   0.014
+##   Taranaki Region                       0.026   0.024
+##   Tasman Region                         0.008   0.007
+##   Waikato Region                        0.102   0.103
+##   Wellington Region                     0.102   0.105
+##   West Coast Region                     0.005   0.005
+\end{verbatim}
+
+\end{document}

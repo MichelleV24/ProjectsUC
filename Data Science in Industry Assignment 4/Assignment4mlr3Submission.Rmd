@@ -1,0 +1,216 @@
+---
+title: "Assignment4-Q1-mlr3"
+author: "Michelle Visscher"
+date: "2023-10-04"
+output: html_document
+---
+
+R-Markdown Notebook for classifying the Breast-Cancer data using mlr3
+
+## Environment
+
+First we shall load the necessary packages
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#load necessary packages
+library(summarytools)
+#library(caret)
+library(recipes)
+library(embed)
+library(themis)
+library(kernlab)
+library(ggplot2)
+library(ggalluvial)
+
+library(mlr3)
+library(mlr3pipelines)
+library(mlr3learners)
+library(mlr3measures)
+library(mlr3tuning)
+library(mlr3misc)
+
+
+library(skimr)
+library(rsample)
+#library(data.table)
+set.seed(7903)
+```
+
+## Data
+
+We shall now load the data and summarise it
+```{r}
+
+data <- read.csv(file = "breast-cancer.csv", stringsAsFactors = TRUE)
+str(data)
+skim(data)
+
+```
+
+## Test/train
+
+We need to separate test from train as early as possible. First we create a new classification task object necessary for MLR3 processes. The target is the 'diagnosis' variable, defined in the task.
+
+```{r}
+
+bc_task <- TaskClassif$new(id = "breast_cancer_task", backend = data, target = "diagnosis")
+bc_task
+
+bc_task$nrow
+
+```
+
+
+Next, splitting the data into training and testing sets using mlr3::prediction function. Specifying 70% of the task to the train set, 30% to test set.
+
+```{r}
+
+set.seed(7903)
+
+split <- mlr3::partition(bc_task, ration = 0.7) #70% goes to train, %30 goes to test
+split
+
+```
+
+## Preprocessing
+
+The recipe will be as follows:
+
+ * diagnosis is the target
+ * id is the identifier
+ * up-sample the minority class
+ * normalise the numeric predictors
+ * experiment with dimensional reduction to 5 components
+ 
+```{r}
+#what mlr pipe operations are available?
+as.data.table(mlr_pipeops)
+
+# Define the SVM learner with a radial kernel
+learner <- lrn("classif.svm", kernel = "radial")
+
+```
+The "step_umap() creates a specification of a recipe step that will project a set of features into a smaller space." While this is not available in mlr3, the PCA (principal component analysis) po is also able to reduce the dimensionality of a dataset while retaining most of its original information.
+
+Next, creating a pipeline with Smote, Scaling, PCA, and assigning ID as a name variable (in place of 'id' variable).
+
+```{r}
+# Create a pipeline
+smote <- PipeOpSmote$new(id="Smote", param_vals = list(dup_size=1))
+scale <- PipeOpScale$new(id = "Normalise", param_vals = list()) #full syntax
+pca <- po("pca") #abbreviated syntax
+col_role <- po("colroles", param_vals = list(new_role = list(id = "name"))) ### id not work
+              
+# Define the SVM learner with probability estimates
+learner_po <- po("learner", learner = lrn("classif.svm", kernel = "radial", predict_type = "prob"))
+
+#pipeline
+graph <- col_role %>>% 
+  smote %>>% 
+  scale %>>% 
+  pca %>>% 
+  learner_po
+
+graph$plot() #visualising the pipeline
+
+glrn <- GraphLearner$new(graph) #creating a new graphlearner object
+```
+
+```{r}
+#print the parameters available to tune
+
+print(glrn$param_set$ids())
+
+```
+From the above parameters available to tune, we can tune the scaling/centering ability (mean/sd) and robust scaling (median). PCA rank will also be used to tune the model.
+
+## Modeling (SVM)
+
+First, setting up the tuning space. Using mlr3tuning::AutoTuner, we can specify which method of tuning to use, the learner object, how many times to resample and through what method, when to stop searching for a model, how to measure model success, and the hyperparameter search space. 
+
+I will explore PCA between 5 and 15, thus trying all instances of 5, 10 and 15 principal components in training the model in one go. 
+```{r}
+as.data.table(mlr_measures) #show all available measures. Wanting ROC/AUC
+
+#set what we are measuring our model on - model assessment
+measure = msr("classif.auc") #"classif.auc" refers to the Area Under the Receiver Operating Characteristic (ROC) Curve (AUC) as a classification measure.
+
+#search space - what parameters are allowed to be tuned
+search_space = ps(
+  Normalise.scale = p_lgl(), 
+  Normalise.robust = p_lgl(),
+  Normalise.center = p_lgl(),
+  pca.rank. = p_int(lower=5,upper=15)) #exploring the number of principal components within this range (b/w 5 and 15).
+
+# Train the learner on the training Task 
+tune <- mlr3tuning::AutoTuner$new(tuner = tnr("grid_search", resolution = 5), #tuner - which method - gridsearch, gaussian, random search. Lots of options. Here, will use grid search. 
+                      learner = glrn, #learner is glrn as defined previously
+                      resampling = rsmp("cv", folds = 10), #10 fold cross vailidation
+                      terminator = trm("evals", n_evals = 50), #terminate - when to stop. eg after 50 models
+                      measure = measure,
+                      search_space = search_space
+                      )
+```
+
+Now, using the tune object, we can train our model using the split$train as our identifiers of our training data within the bc_task data. 
+```{r}
+trained_model_1 = tune$train(task = bc_task, row_ids = split$train)
+
+```
+
+```{r}
+trained_model_1$model
+
+```
+
+If we just want to visualise the best model's tuning results, we can specify this. 
+```{r}
+trained_model_1$tuning_result
+```
+The best tuning results show scaling true, but no centering, a PCA rank of 5 (5 principal components), and a final classif auc of 0.9956.
+
+## Predicitons on test data
+
+Based on our trained model, we can now make predictions on our data using the $predict() function. 
+```{r}
+
+predictions <- tune$predict(task = bc_task, row_ids = split$test)
+
+predictions
+
+```
+
+
+Just printing the confusion matrix makes the outcome of the best model clear:
+```{r}
+predictions$confusion
+
+confusion_matrix(predictions$truth, predictions$response, predictions$positive, na_value = NaN, relative = FALSE)
+
+as.data.table(predictions)
+
+predictions$score(measure)
+```
+
+
+## Alluvial Chart
+
+We can print the confusion matrix as an alluvial chart, visualing the number of correctly predicted vs incorrectly predicted observations. 
+
+```{r}
+dataCm <- as.data.frame(predictions$confusion)
+dataCm
+dataCm$missclassified <- dataCm$response != dataCm$truth
+
+ggplot(data = dataCm, mapping = aes(y = Freq, axis1 = response, axis2 = truth, label = after_stat(stratum))) +
+  ggalluvial::geom_alluvium(aes(fill = missclassified, colour = missclassified), show.legend = TRUE) +
+  ggalluvial::geom_stratum(width = 0.2) +
+  geom_text(stat = "stratum", reverse = TRUE) +
+  scale_x_discrete(limits = c("Prediction", "Actual"), expand = c(0.0, 0.0)) +
+  ggtitle("Classification of Breast-cancer diagnoses") +
+  scale_fill_manual(values = c("green","red")) +
+  theme_bw()
+```
+

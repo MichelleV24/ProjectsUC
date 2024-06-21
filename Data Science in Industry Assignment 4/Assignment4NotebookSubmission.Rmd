@@ -1,0 +1,144 @@
+---
+title: "Michelle Visscher DATA423 A4"
+output: html_notebook
+---
+# Question 2: Control Charts 
+
+```{r setup, include=FALSE}
+#load packages
+library(qicharts2)
+library(skimr)
+library(lubridate)
+library(dplyr)
+
+```
+
+### Step 1: Loading Files. 
+
+The file monitor.csv contains comma separated data. 
+The columns are 
+Timestamp - the time-stamp of a model prediction being run 
+ProcessMemory - the allocated memory (MB) of the relevant server process 
+Prediction - the value predicted by the model
+PredictionTimeMS - the duration of the prediction task in milliseconds
+
+
+```{r}
+monitor_data <- read.csv("monitor.csv")
+skim(monitor_data)
+
+```
+
+Add a day-of-the-year column or something similar to marks the days.
+
+```{r}
+monitor_data$day_of_year <- yday(ymd_hms(monitor_data$Timestamp))
+head(monitor_data)
+tail(monitor_data)
+
+```
+
+Day of year starts at 32 because the first day is 1st Feburary 2021 - meaning the 32nd day of the year
+The last day of the data set is 1st June 2021, meaning the 152nd day of the year. In total there are 16069 observations. 
+
+## Creating control charts to answer questions. 
+
+### a) Is the memory usage of the server in control? 
+
+First, we will look at the 'xbar' chart which can plot the means of the sets of consecutive points, and shows whether the process mean is in control.
+```{r}
+#xbar for mean
+mean_memory_p <- qicharts2::qic(x = day_of_year, y = ProcessMemory, data = monitor_data, chart = "xbar", subtitle = "Process Memory Process Mean in Control?", freeze = 40)
+plot(mean_memory_p)
+
+mean_memory_summary <- summary(mean_memory_p)
+mean_memory_summary
+```
+The sigma signal is 23 and the runs signal is 1. The sigma signal of 23 indicates that there were 23 occurrences of the line going beyond the grey area of the plot. The runs signal of 1 also indicates that points were above (or below, but not in this case) the central (expected) line for a sequence of points. Specifically, runs.signal indicates that longest.run was greater than longest.run.max in this case. Ultimately, this result tells us that the memory usage of the server is not in control. 
+
+Next, we will look at the standard deviation of consecutive points using the 's' chart. The 's' chart shows whether the process variablity is in control. 
+
+Plotting standard deviation of sets of consecutive points using S chart. An S chart shows whether the process variability is in control.
+```{r}
+sd_memory_p <- qicharts2::qic(x = day_of_year, y = ProcessMemory, data = monitor_data, chart = "s", subtitle = "Process Memory Process variability in Control?", freeze = 40)
+plot(sd_memory_p)
+
+sd_memory_summary <- summary(sd_memory_p)
+sd_memory_summary
+
+```
+
+The sigma signal is 1 and runs signal is 0. This suggests there was one time where the line went beyond the limit, also visualised in the graph. The longest.run was less than the longest.run.max (7< 10) in this instance, but n.crossings was greater than n.crossings.min (57 > 51). This tells us that the process memory variability is not in control. 
+
+
+### b) Is the prediction time of the model in control? 
+```{r}
+mean_predictionT_p <- qicharts2::qic(x = day_of_year, y = PredictionTimeMS, data = monitor_data, chart = "xbar", subtitle = "Precition Time Process Mean in Control?", freeze = 40)
+plot(mean_predictionT_p)
+
+mean_pred_time_sumamry <- summary(mean_predictionT_p)
+mean_pred_time_sumamry
+
+```
+
+The results above indicate that the prediction time process mean is not in control, as the sigma signal is a value of 1 (the line has gone beyond the limit once). Signal runs is 0, as Longest.run is less than longest.run.max (5 < 10), but n.crossings is greater than n.crossings.min (61 > 51).
+
+
+```{r}
+sd_predictionT_p <- qicharts2::qic(x = day_of_year, y = PredictionTimeMS, data = monitor_data, chart = "s", subtitle = "Prediction Time Process variability in Control?", freeze = 40)
+plot(sd_predictionT_p)
+
+sd_pred_time_summary <- summary(sd_predictionT_p)
+sd_pred_time_summary
+```
+The results above show that the prediction time process variability is also not in control. The sigmal signal of 23 indicates there were 23 instances of the line crossing the grey area boundary. The runs signal of 1 also shows this. Longest.run is greater than longest.run.max, but n.crossings is less than n.crossings.min.
+Ultimately, the prediction time process is not in control. 
+
+
+### c) Is the stream of predictions in control?
+
+```{r}
+mean_prediction_p <- qicharts2::qic(x = day_of_year, y = Prediction, data = monitor_data, chart = "xbar", subtitle = "Prediction Process mean in Control?", freeze = 40)
+plot(mean_prediction_p)
+
+mean_predicition_summary <- summary(mean_prediction_p)
+mean_predicition_summary
+
+```
+The above results show that the stream of predictions process is not in control. runs.signal is 1, indicating there were instances where the model is not in control. Sigma.signal confirms there were 28 times the model crossed the threshold limit. Longest.run is greater than longest.run.max and n.crossings is less than n.crossings.min. 
+
+
+```{r}
+sd_prediction_p <- qicharts2::qic(x = day_of_year, y = Prediction, data = monitor_data, chart = "s", subtitle = "Prediction Process variability in Control?", freeze = 40)
+plot(sd_prediction_p)
+
+sd_prediction_summary <- summary(sd_prediction_p)
+sd_prediction_summary
+```
+The S chart shows the variability of control for the prediction process. This is not in control, observed by runs.signal being 1, indicating the limit has been crossed. Sigma.signal confirms that there were 23 instances where the limit was breached. Longest.run is greater than longest.run.max and n.crossings is less than n.crossings.min.
+
+### Summarising results in a table: 
+
+
+```{R}
+
+df <- data.frame(Measurement = c("Memory", "Prediction Time", "Prediction"),
+           Xbar_Runs_Signal = c(summary(mean_memory_p)$runs.signal[1], 
+                                summary(mean_predictionT_p)$runs.signal[1], 
+                                summary(mean_prediction_p)$runs.signal[1]),
+           Xbar_Breaches = c(summary(mean_memory_p)$sigma.signal[1], 
+                             summary(mean_predictionT_p)$sigma.signal[1], 
+                             summary(mean_prediction_p)$sigma.signal[1]),
+           S_Runs_Signal = c(summary(sd_memory_p)$runs.signal[1], 
+                             summary(sd_predictionT_p)$runs.signal[1], 
+                             summary(sd_prediction_p)$runs.signal[1]),
+           S_Breaches = c(summary(sd_memory_p)$sigma.signal[1], 
+                          summary(sd_predictionT_p)$sigma.signal[1], 
+                          summary(sd_prediction_p)$sigma.signal[1])
+           )
+df$Result <- ifelse((df$Xbar_Breaches + df$Xbar_Runs_Signal + df$S_Breaches + df$S_Runs_Signal) == 0,
+                     "In Control", 
+                     "Out of control")
+df
+```
+By summarising these results in a table, we can observe clearly that Memory, Prediction time and Prediction were not in control, both in terms of process mean and variability. 
